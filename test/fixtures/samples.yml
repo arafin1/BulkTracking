@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  style: one
+  sample_type: MyString
+  date_sent: 2026-04-21
+  status: MyString
+  buyer_comments: MyText
+
+two:
+  style: two
+  sample_type: MyString
+  date_sent: 2026-04-21
+  status: MyString
+  buyer_comments: MyText
