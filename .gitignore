@@ -30,4 +30,5 @@
 
 # Ignore key files for decrypting credentials and more.
 /config/*.key
-
+/home/arafin/BulkTracking/arafinKey
+/home/arafin/BulkTracking/arafinKey.pub
