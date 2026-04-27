@@ -21,6 +21,17 @@ class Api::V1::SamplesController < ApplicationController
             render json: sample.errors, status: :unprocessable_entity
         end
     end
+
+    def update_status
+        sample = Sample.find(params[:id])
+        if sample.update(status: params[:status])
+            render json: sample
+        else
+            render json: sample.errors, status: :unprocessable_entity
+        end
+        
+    end
+
     private
     def sample_params
         params.require(:sample).permit(

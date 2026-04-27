@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   # root "posts#index"
   namespace :api do
     namespace :v1 do
-      resources :samples
+      resources :samples do 
+        member do 
+          patch :update_status
+        end
+      end
       resources :buyers
       resources :styles
     end
