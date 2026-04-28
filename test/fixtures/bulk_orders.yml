@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sample: one
+  quantity: 1
+  delivery_date: 2026-04-28
+  production_status: MyString
+  factory_notes: MyText
+
+two:
+  sample: two
+  quantity: 1
+  delivery_date: 2026-04-28
+  production_status: MyString
+  factory_notes: MyText

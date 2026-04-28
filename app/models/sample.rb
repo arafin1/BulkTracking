@@ -1,6 +1,6 @@
 class Sample < ApplicationRecord
   belongs_to :style
-
+  has_one :bulk_order
   #status constants
 
   STATUSES = %w[

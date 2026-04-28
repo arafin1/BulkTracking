@@ -16,6 +16,10 @@ Rails.application.routes.draw do
       end
       resources :buyers
       resources :styles
+      resources :bulk_orders do
+        member do 
+          patch :update_status
+        end
     end
   end
 end

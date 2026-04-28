@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_21_125930) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_28_035453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "bulk_orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "delivery_date"
+    t.text "factory_notes"
+    t.string "production_status"
+    t.integer "quantity"
+    t.bigint "sample_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sample_id"], name: "index_bulk_orders_on_sample_id"
+  end
 
   create_table "buyers", force: :cascade do |t|
     t.string "country"
@@ -42,6 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_125930) do
     t.index ["buyer_id"], name: "index_styles_on_buyer_id"
   end
 
+  add_foreign_key "bulk_orders", "samples"
   add_foreign_key "samples", "styles"
   add_foreign_key "styles", "buyers"
 end
