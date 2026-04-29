@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_28_035453) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_040611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_28_035453) do
     t.text "factory_notes"
     t.string "production_status"
     t.integer "quantity"
+    t.string "quantity_unit"
     t.bigint "sample_id", null: false
     t.datetime "updated_at", null: false
     t.index ["sample_id"], name: "index_bulk_orders_on_sample_id"

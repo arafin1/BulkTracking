@@ -32,6 +32,7 @@ class Api::V1::BulkOrdersController < ApplicationController
         params.require(:bulk_order).permit(
             :sample_id,
             :quantity,
+            :quantity_unit,
             :delivery_date,
             :production_status,
             :factory_notes

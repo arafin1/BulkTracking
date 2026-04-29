@@ -9,6 +9,16 @@ class BulkOrder < ApplicationRecord
     shipped
   ].freeze
 
+  QUANTITY_UNITS = %w[
+    pcs
+    yds
+    meters
+    kg
+    dozens
+    sets
+  ].freeze
+
+  validates :quantity_unit, inclusion: { in: QUANTITY_UNITS }
   validates :production_status, inclusion: { in: PRODUCTION_STATUSES }
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
