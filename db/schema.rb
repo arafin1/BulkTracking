@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_040611) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_124829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -32,6 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_040611) do
     t.string "email"
     t.string "name"
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_buyers_on_email", unique: true
   end
 
   create_table "samples", force: :cascade do |t|
@@ -52,6 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_040611) do
     t.string "style_number"
     t.datetime "updated_at", null: false
     t.index ["buyer_id"], name: "index_styles_on_buyer_id"
+    t.index ["style_number"], name: "index_styles_on_style_number", unique: true
   end
 
   add_foreign_key "bulk_orders", "samples"
