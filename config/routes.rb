@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   namespace :api do
     namespace :v1 do
+      get "dashboard", to:"dashboard#index"
       resources :samples do 
         member do 
           patch :update_status
