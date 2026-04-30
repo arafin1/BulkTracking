@@ -1,24 +1,19 @@
-# README
+# BulkTrack 🧵
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Sample tracking and bulk production 
+management system for garments industry.
 
-Things you may want to cover:
+## Built With
+- Ruby on Rails 7
+- PostgreSQL
+- JWT Authentication
 
-* Ruby version
+## Features
+- Sample registration and tracking
+- Buyer management
+- Bulk order management
+- Production status workflow
+- Dashboard analytics
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Live Demo
+coming soon...
