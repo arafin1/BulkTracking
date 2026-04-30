@@ -1,4 +1,7 @@
 class Api::V1::SamplesController < ApplicationController
+    
+    before_action :authenticate_user!
+
     def index
         samples = Sample.all
         render json: samples

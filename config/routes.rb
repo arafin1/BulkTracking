@@ -8,20 +8,22 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   namespace :api do
-    namespace :v1 do
-      get "dashboard", to:"dashboard#index"
-      resources :samples do 
-        member do 
-          patch :update_status
-        end
+  namespace :v1 do
+    post "auth/register", to: "auth#register"
+    post "auth/login", to: "auth#login"
+    get "dashboard", to: "dashboard#index"
+    resources :samples do
+      member do
+        patch :update_status
       end
-      resources :buyers
-      resources :styles
-      resources :bulk_orders do
-        member do 
-          patch :update_status
-        end
+    end
+    resources :buyers
+    resources :styles
+    resources :bulk_orders do
+      member do
+        patch :update_status
       end
     end
   end
+end
 end

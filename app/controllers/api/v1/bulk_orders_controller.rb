@@ -1,4 +1,5 @@
 class Api::V1::BulkOrdersController < ApplicationController
+      before_action :authenticate_user!
     def index
         bulk_orders = BulkOrder.all 
         render json: bulk_orders

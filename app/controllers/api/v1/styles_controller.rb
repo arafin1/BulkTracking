@@ -1,4 +1,5 @@
 class Api::V1::StylesController < ApplicationController
+    before_action :authenticate_user!
   def index
     styles = Style.all
     render json: styles

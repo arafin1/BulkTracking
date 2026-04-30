@@ -1,4 +1,5 @@
 class Api::V1::DashboardController < ApplicationController
+    before_action :authenticate_user!
   def index
     render json: {
       summary: {
