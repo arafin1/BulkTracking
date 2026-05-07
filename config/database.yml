@@ -84,10 +84,24 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
-
-production:
+default: &default
   adapter: postgresql
   encoding: unicode
-  url: <%= ENV['DATABASE_URL'] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  sslmode: require
+  url: <%= ENV['DATABASE_URL'] %>
+
+development:
+  <<: *default
+  database: bulktrack_development
+
+test:
+  <<: *default
+  database: bulktrack_test
+
+production:
+  primary:
+    <<: *default
+  cable:
+    <<: *default
+    database: bulktrack_production_cable
+    migrations_paths: db/cable_migrate
