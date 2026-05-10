@@ -20,9 +20,14 @@ class Api::V1::AuthController < ApplicationController
       render json: user.errors, status: :unprocessable_entity
     end
   end
-
   def login
+    Rails.logger.info "=== LOGIN PARAMS: #{params.inspect} ==="
+    Rails.logger.info "=== EMAIL: #{params[:email]} ==="
+    Rails.logger.info "=== PASSWORD: #{params[:password]} ==="
+  
     user = User.find_by(email: params[:email])
+    Rails.logger.info "=== USER FOUND: #{user.inspect} ==="
+  
     if user&.authenticate(params[:password])
       token = encode_token({ user_id: user.id })
       render json: {
@@ -37,7 +42,7 @@ class Api::V1::AuthController < ApplicationController
       }
     else
       render json: { error: "Invalid email or password" },
-             status: :unauthorized
+            status: :unauthorized
     end
   end
 
