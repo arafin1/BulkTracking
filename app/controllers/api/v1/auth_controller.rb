@@ -2,6 +2,7 @@ class Api::V1::AuthController < ApplicationController
   include JwtHelper
 
   def register
+    
     user = User.new(user_params)
     if user.save
       token = encode_token({ user_id: user.id })
