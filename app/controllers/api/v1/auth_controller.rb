@@ -5,7 +5,7 @@ class Api::V1::AuthController < ApplicationController
     user = User.new(user_params)
     if user.save
       token = encode_token({ user_id: user.id })
-      render json: { 
+      render json: {
         message: "Registration successful",
         token: token,
         user: {
@@ -21,12 +21,10 @@ class Api::V1::AuthController < ApplicationController
   end
 
   def login
-    email = params[:email] || params.dig(:auth, :email)
-    password = params[:password] || params.dig(:auth, :password)
-    user = User.find_by(email: email)
-    if user&.authenticate(password)
+    user = User.find_by(email: params[:email])
+    if user&.authenticate(params[:password])
       token = encode_token({ user_id: user.id })
-      render json: { 
+      render json: {
         message: "Login successful",
         token: token,
         user: {
@@ -37,7 +35,7 @@ class Api::V1::AuthController < ApplicationController
         }
       }
     else
-      render json: { error: "Invalid email or password" }, 
+      render json: { error: "Invalid email or password" },
              status: :unauthorized
     end
   end
@@ -46,9 +44,9 @@ class Api::V1::AuthController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :name, 
-      :email, 
-      :password, 
+      :name,
+      :email,
+      :password,
       :password_confirmation,
       :role
     )
