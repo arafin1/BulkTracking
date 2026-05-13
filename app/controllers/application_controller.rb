@@ -2,7 +2,6 @@ class ApplicationController < ActionController::API
   include JwtHelper
   # Disable parameter wrapping
   wrap_parameters false
-
   def authenticate_user!
     token = request.headers["Authorization"]&.split(" ")&.last
     decoded = decode_token(token)
