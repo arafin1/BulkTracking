@@ -14,3 +14,15 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    # Add your explicit local development origins
+    origins 'http://localhost:5173', 'http://127.0.0.1:5173'
+
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      expose: ['Authorization'], # Mandatory to pass your working JWT back to Axios
+      credentials: false
+  end
+end
