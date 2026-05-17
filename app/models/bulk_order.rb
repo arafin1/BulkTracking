@@ -21,6 +21,7 @@ class BulkOrder < ApplicationRecord
   validates :quantity_unit, inclusion: { in: QUANTITY_UNITS }
   validates :production_status, inclusion: { in: PRODUCTION_STATUSES }
   validates :quantity, presence: true, numericality: { greater_than: 0 }
+  validates :status, presence: true
 
   def in_progress?
     production_status == "in_progress"
