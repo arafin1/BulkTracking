@@ -22,12 +22,23 @@ class Api::V1::BulkOrdersController < ApplicationController
 def update_status
     @bulk_order = BulkOrder.find(params[:id])
     
-    # Using @current_user safely based on your ApplicationController setup
+    # Check your instance variable context from your ApplicationController hook safely
     if @current_user&.role == 'admin' || @current_user&.role == 'production_manager'
       
-      # 💡 FIX: Safely map and update the actual database column (:production_status)
+      # 1. 💡 Update using the true database column name (:production_status)
       if @bulk_order.update(production_status: update_status_params[:status])
-        render json: @bulk_order, status: :ok
+        
+        # 2. 💡 CRITICAL FIX: Customizing the rendered JSON response object.
+        # If your ActiveModel Serializer attempts to include a missing 'status' field, 
+        # rendering the raw @bulk_order object directly can crash the server here.
+        render json: {
+          id: @bulk_order.id,
+          sample_id: @bulk_order.sample_id,
+          quantity: @bulk_order.quantity,
+          production_status: @bulk_order.production_status,
+          status: @bulk_order.production_status # Send 'status' to keep React frontend stable!
+        }, status: :ok
+
       else
         render json: { error: @bulk_order.errors.full_messages }, status: :unprocessable_entity
       end
@@ -49,8 +60,8 @@ def update_status
     )
   end
 
-  # 💡 FIX: Permit the incoming key ':status' coming from the React client payload
+  # 3. 💡 Captures the 'status' key coming out of your React payload seamlessly
   def update_status_params
     params.require(:bulk_order).permit(:status)
-end
+  end
 end
