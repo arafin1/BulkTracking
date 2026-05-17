@@ -19,14 +19,14 @@ class Api::V1::BulkOrdersController < ApplicationController
       render json: { error: "Sample must be approved first" }, status: :unprocessable_entity
     end
   end
-
-  def update_status
+def update_status
     @bulk_order = BulkOrder.find(params[:id])
     
-    if current_user&.role == 'admin' || current_user&.role == 'production_manager'
+    # Using @current_user safely based on your ApplicationController setup
+    if @current_user&.role == 'admin' || @current_user&.role == 'production_manager'
       
-    
-      if @bulk_order.update(production_status: params[:bulk_order][:status])
+      # 💡 FIX: Safely map and update the actual database column (:production_status)
+      if @bulk_order.update(production_status: update_status_params[:status])
         render json: @bulk_order, status: :ok
       else
         render json: { error: @bulk_order.errors.full_messages }, status: :unprocessable_entity
@@ -49,8 +49,8 @@ class Api::V1::BulkOrdersController < ApplicationController
     )
   end
 
-  # 💡 FIX 3: Separate strong parameters filter explicitly tailored for updating status fields safely
+  # 💡 FIX: Permit the incoming key ':status' coming from the React client payload
   def update_status_params
-  params.require(:bulk_order).permit(:production_status)
+    params.require(:bulk_order).permit(:status)
 end
 end
