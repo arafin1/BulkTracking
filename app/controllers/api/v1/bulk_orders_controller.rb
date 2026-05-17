@@ -19,14 +19,20 @@ class Api::V1::BulkOrdersController < ApplicationController
         end
     end
 
-    def update_status
-        bulk_order = BulkOrder.find(params[:id])
-        if bulk_order.update(production_status: params[:production_status]) 
-            render json:bulk_order
-        else
-            render json: bulk_order.errors, status: :unprocessable_entity
-        end
+  def update_status
+  @bulk_order = BulkOrder.find(params[:id])
+  
+  # Optional backend role enforcement guard
+  if @current_user.role == 'admin' || @current_user.role == 'production_manager'
+    if @bulk_order.update(status: params[:bulk_order][:status])
+      render json: @bulk_order, status: :ok
+    else
+      render json: { error: @bulk_order.errors.full_messages }, status: :unprocessable_entity
     end
+  else
+    render json: { error: "Insufficient factory line administrative clearance." }, status: :unauthorized
+  end
+end
     private 
 
     def bulk_order_params
