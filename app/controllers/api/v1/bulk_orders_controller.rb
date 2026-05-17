@@ -20,24 +20,23 @@ class Api::V1::BulkOrdersController < ApplicationController
     end
 
     def update_status
-        @bulk_order = BulkOrder.find(params[:id])
-        
-        # 🛡️ Map "production_status" to your column if they are named differently:
-        status_to_update = params[:bulk_order][:production_status] || params[:bulk_order][:status]
-
-        # Use attributes mapping directly
-        if @bulk_order.update(status: status_to_update) # Change :status to match your database column name
-          render json: { message: "Status updated successfully", bulk_order: @bulk_order }, status: :ok
+        bulk_order = BulkOrder.find(params[:id])
+        if bulk_order.update(production_status: params[:production_status]) 
+            render json:bulk_order
         else
-          # 💡 This will return the exact validation error (e.g., "Quantity unit is not included in the list")
-          render json: { error: @bulk_order.errors.full_messages.join(", ") }, status: :unprocessable_entity
+            render json: bulk_order.errors, status: :unprocessable_entity
         end
-      end
+    end
     private 
 
-   private
-
     def bulk_order_params
-        params.require(:bulk_order).permit(:sample_id, :quantity, :quantity_unit, :production_status, :status)
+        params.require(:bulk_order).permit(
+            :sample_id,
+            :quantity,
+            :quantity_unit,
+            :delivery_date,
+            :production_status,
+            :factory_notes
+        )
     end
 end
