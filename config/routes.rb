@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         patch :update_status
       end
     end
+    resources :users, only: [:index, :show, :destroy]
     resources :buyers
     resources :styles
     resources :bulk_orders do
