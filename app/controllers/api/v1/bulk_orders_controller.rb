@@ -20,32 +20,18 @@ class Api::V1::BulkOrdersController < ApplicationController
     end
   end
 def update_status
-    @bulk_order = BulkOrder.find(params[:id])
-    
-    # Check your instance variable context from your ApplicationController hook safely
-    if @current_user&.role == 'admin' || @current_user&.role == 'production_manager'
-      
-      # 1. 💡 Update using the true database column name (:production_status)
-      if @bulk_order.update(production_status: update_status_params[:status])
-        
-        # 2. 💡 CRITICAL FIX: Customizing the rendered JSON response object.
-        # If your ActiveModel Serializer attempts to include a missing 'status' field, 
-        # rendering the raw @bulk_order object directly can crash the server here.
-        render json: {
-          id: @bulk_order.id,
-          sample_id: @bulk_order.sample_id,
-          quantity: @bulk_order.quantity,
-          production_status: @bulk_order.production_status,
-          status: @bulk_order.production_status # Send 'status' to keep React frontend stable!
-        }, status: :ok
+  bulk_order = BulkOrder.find(params[:id])
 
-      else
-        render json: { error: @bulk_order.errors.full_messages }, status: :unprocessable_entity
-      end
-    else
-      render json: { error: "Insufficient factory line administrative clearance." }, status: :unauthorized
-    end
+  status = params[:production_status] ||
+           params.dig(:bulk_order, :production_status)
+
+  if bulk_order.update_column(:production_status, status)
+    render json: bulk_order
+  else
+    render json: { error: "Failed to update status" },
+           status: :unprocessable_entity
   end
+end
 
   private 
 

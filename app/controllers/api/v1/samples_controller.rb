@@ -25,15 +25,19 @@ class Api::V1::SamplesController < ApplicationController
         end
     end
 
-    def update_status
-        sample = Sample.find(params[:id])
-        if sample.update(status: params[:status])
-            render json: sample
-        else
-            render json: sample.errors, status: :unprocessable_entity
-        end
-        
+   def update_status
+    sample = Sample.find(params[:id])
+
+    status = params[:status] ||
+           params.dig(:sample, :status)
+
+    if sample.update_column(:status, status)
+        render json: sample
+    else
+        render json: { error: "Failed to update status" },
+           status: :unprocessable_entity
     end
+   end
 
     private
     def sample_params
