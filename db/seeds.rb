@@ -98,3 +98,20 @@ puts "Buyers: #{Buyer.count}"
 puts "Styles: #{Style.count}"
 puts "Samples: #{Sample.count}"
 puts "Bulk Orders: #{BulkOrder.count}"
+
+
+# Test users for all roles
+[
+  { name: "Merchandiser", email: "merch@bulktrack.com", role: "merchandiser" },
+  { name: "Factory Staff", email: "factory@bulktrack.com", role: "factory" },
+  { name: "H&M Buyer", email: "buyer@bulktrack.com", role: "buyer" },
+].each do |u|
+  User.find_or_create_by(email: u[:email]) do |user|
+    user.name = u[:name]
+    user.password = "password123"
+    user.password_confirmation = "password123"
+    user.role = u[:role]
+  end
+end
+
+puts "✅ Test users created"
